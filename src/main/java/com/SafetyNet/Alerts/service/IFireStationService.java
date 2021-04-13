@@ -8,11 +8,8 @@ import java.util.List;
 
 
 public interface IFireStationService {
-
-
-    // get a list of phoneNumbers by station Number
+    
     List<String> findPhoneNumbersByStationNumber(int number);
-
 
     List<FloodDto> flood(List<Integer> stationsNumbers);
 
@@ -20,15 +17,13 @@ public interface IFireStationService {
 
     FireStationDto findAllPersonsByStationNumber(int number);
 
-
     void addFireStation(FireStation fireStation);
 
+    void updateFireStation(FireStation fireStation);
 
-    public void updateFireStation(FireStation fireStation);
+    void deleteFireStation(String address, String station);
 
-    public void deleteFireStation(String address, String station);
-
-    public List<FireStation> allFireStations();
+    List<FireStation> allFireStations();
 
 }
 
