@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class FireStationService {
+public class FireStationService implements IFireStationService {
 
 
     private final FireStationRepository fireStationRepository;
