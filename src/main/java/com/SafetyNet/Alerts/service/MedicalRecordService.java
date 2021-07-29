@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MedicalRecordService implements IMedicalRecordService{
+public class MedicalRecordService {
 
     private final MedicalRecordsRepository medicalRecordsRepository;
 

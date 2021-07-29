@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class PersonService implements IPersonService {
+public class PersonService {
 
     private final PersonRepository personRepository;
     private final MedicalRecordsRepository medicalRecordsRepository;
