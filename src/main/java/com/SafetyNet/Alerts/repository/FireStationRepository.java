@@ -24,7 +24,7 @@ public class FireStationRepository {
 
     public List<FireStation> findAllFireStationsAddressByNumber(Integer number) {
 
-        return dataHandler.getData().getFirestations().stream().filter(p -> p.getStation().equals(number.toString())).collect(Collectors.toList());
+        return dataHandler.getData().getFirestations().stream().filter(f -> f.getStation().equals(number.toString())).collect(Collectors.toList());
     }
 
     public FireStation findFireStationNumberByAddress(String address) {
@@ -75,7 +75,7 @@ public class FireStationRepository {
 
         // look for the person to update
 
-        // set the new properties of this person
+        // set the new properties of fireStation
         dataHandler.getData().setFirestations(fireStations);
         dataHandler.save();
     }
@@ -99,31 +99,32 @@ public class FireStationRepository {
             dataHandler.save();
         }
     }
-/*
-    public FireStation getFireStation(FireStation fireStation) {
-        FireStation result = new FireStation();
-        List<FireStation> fireStations = dataHandler.getData().getFirestations();
-        for (FireStation fireStation2 : fireStations) {
 
-            if (fireStation2.getAddress().equals((fireStation.getAddress())) && fireStation2.getStation().equals((fireStation.getStation()))) {
+    /*
+        public FireStation getFireStation(FireStation fireStation) {
+            FireStation result = new FireStation();
+            List<FireStation> fireStations = dataHandler.getData().getFirestations();
+            for (FireStation fireStation2 : fireStations) {
 
-                result = fireStation2;
-                break;
+                if (fireStation2.getAddress().equals((fireStation.getAddress())) && fireStation2.getStation().equals((fireStation.getStation()))) {
+
+                    result = fireStation2;
+                    break;
+                }
+
             }
-
+            return result;
         }
-        return result;
+        */
+    public FireStation findFireStationNumberByAddressAndNumber(String address, String station) {
+        return dataHandler.getData().getFirestations().stream()
+
+                .filter(p -> p.getAddress().equals(address))
+                .filter(p -> p.getStation().equals(station))
+                .findFirst()
+                .orElseGet(() -> new FireStation());
+
     }
-    */
-public FireStation findFireStationNumberByAddressAndNumber(String address, String station) {
-    return dataHandler.getData().getFirestations().stream()
-
-            .filter(p -> p.getAddress().equals(address))
-            .filter(p -> p.getStation().equals(station))
-            .findFirst()
-            .orElseGet(() -> new FireStation());
-
-}
 
 }
 

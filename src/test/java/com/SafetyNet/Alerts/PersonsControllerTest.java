@@ -7,6 +7,7 @@ import com.SafetyNet.Alerts.repository.FireStationRepository;
 import com.SafetyNet.Alerts.repository.PersonRepository;
 import com.SafetyNet.Alerts.service.PersonService;
 import com.SafetyNet.Alerts.service.dto.ChildAlertDto;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,8 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class PersonsControllerTest {
@@ -44,26 +47,31 @@ class PersonsControllerTest {
 
 
  */
+
     }
 
 
     @Test
     void listeEMailsTest() {
 
-    Assertions.assertThat(personsController.listeEmails("Culver")).isNotNull();
+        Assertions.assertThat(personsController.listeEmails("Culver")).isNotNull();
     }
+
+
     @Test
     void childsUnder18ByAddressTest() {
 
 
-        Assertions.assertThat(personsController.childsUnder18ByAddress("Culver")).isNotNull();
+        Assertions.assertThat(personsController.childsUnder18ByAddress("1509 Culver St")).isNotNull();
+        assertEquals(2,personsController.childsUnder18ByAddress("1509 Culver St").size());
+
     }
 
     @Test
     void listOfpersonsWithMedicalRecordsTest() {
 
 
-Assertions.assertThat(personsController.listOfpersonsWithMedicalRecords("John","Boyd")).isNotNull();
+        Assertions.assertThat(personsController.listOfpersonsWithMedicalRecords("John", "Boyd")).isNotNull();
     }
 
 
@@ -75,30 +83,42 @@ Assertions.assertThat(personsController.listOfpersonsWithMedicalRecords("John","
     }
 
 
+
+
     @Test
     void addAPersonTest() {
 
-        Person person = new Person("firstNameTest", "lastNameTest", "892 Downing Ct", "Culver", "97451", "841-874-7878", "soph@email.com");
+        Person person = new Person("firstNameTest", "lastNameTest", "892 Downing Ct",
+                "Culver", "97451", "841-874-7878", "soph@email.com");
+
+
         personsController.addAPerson(person);
+
         Person result = personRepository.findpersonByfirstNameAndLastName(person.getFirstName(), person.getLastName());
         assert (result.getFirstName().equals(person.getFirstName()));
         assert (result.getLastName().equals(person.getLastName()));
+
     }
+
+
 
     @Test
     void updatePersontest() {
         Person person = new Person("firstNameTest2", "lastNameTest2", "test", "Culver", "97451", "841-874-7878", "soph@email.com");
         personRepository.savePerson(person);
         Person personUpdate = new Person("firstNameTest2", "lastNameTest2", "testUpdated", "Culver", "97451", "841-874-7878", "soph@email.com");
-       personsController.updateAPerson(personUpdate);
+        personsController.updateAPerson(personUpdate);
         Person result = personRepository.findpersonByfirstNameAndLastName(personUpdate.getFirstName(), personUpdate.getLastName());
         assert (result.getAdress().equals(personUpdate.getAdress()));
 
 
     }
 
+
+
+
     @Test
-    void deleteFireStationtest() {
+    void deletePersonTest() {
         Person person = new Person("firstNameTest4", "lastNameTest4", "892 Downing Ct", "Culver", "97451", "841-874-7878", "soph@email.com");
         personsController.addAPerson(person);
         personsController.deletePersoneAPerson("firstNameTest4", "lastNameTest4");
@@ -107,18 +127,13 @@ Assertions.assertThat(personsController.listOfpersonsWithMedicalRecords("John","
     }
 
 
+
+
     @Test
     void allFireStationtest() {
         List<Person> people = personsController.allpeople();
-
         Assert.notNull(people, "people is not null ");
-
     }
-
-
-
-
-
 
 
 }

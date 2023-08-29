@@ -11,7 +11,4 @@ public class FireStationPersonDto {
     String address;
     String phoneNumber;
 
-
-
-
 }

@@ -24,6 +24,7 @@ public class FireStationsController {
     public List<String> phoneNumberList(@RequestParam(name = "fireStation") int number) {
 
         return this.fireStationService.findPhoneNumbersByStationNumber(number);
+
     }
 
     //get the persons By fireStations will give first name, last name address phone number, and must give also the number of adults and childs (+ ou- 18 years old )
@@ -32,14 +33,9 @@ public class FireStationsController {
 
         return this.fireStationService.findAllPersonsByStationNumber(number);
     }
-
-
-//get the phones numbers by fireStations
-
+    
     @RequestMapping(value = "flood/stations", method = RequestMethod.GET)
     public List<FloodDto> flood(@RequestParam(name = "stations") List<Integer> numbers) {
-
-
         return this.fireStationService.flood(numbers);
     }
 

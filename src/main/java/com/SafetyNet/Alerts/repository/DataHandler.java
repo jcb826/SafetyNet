@@ -4,32 +4,34 @@ import com.SafetyNet.Alerts.model.Data;
 import com.jsoniter.JsonIterator;
 import com.jsoniter.output.JsonStream;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 @Component
 public class DataHandler {
 
-    private final ResourceLoader loader;
+
     private final Data data;
 
 
-    public DataHandler(ResourceLoader loader) throws IOException {
-        this.loader = loader;
-        File file = loader.getResource("classpath:data.json").getFile();
-        String data = FileUtils.readFileToString(file, "UTF-8");
-        this.data = JsonIterator.deserialize(data, Data.class);
+    public DataHandler() throws IOException {
+        String temp = getFromResource("data.json");
+        this.data = JsonIterator.deserialize(temp, Data.class);
+    }
+
+    private String getFromResource(String s) throws IOException {
+        InputStream is = new ClassPathResource(s).getInputStream();
+        return IOUtils.toString(is, StandardCharsets.UTF_8);
     }
 
     public Data getData() {
         return data;
     }
-
 
     public void save() {
         String json = JsonStream.serialize(data);

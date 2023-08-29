@@ -21,7 +21,6 @@ public class MedicalRecordsRepository {
     }
 
     public List<MedicalRecord> findAllMedicalRecords() {
-
         return dataHandler.getData().getMedicalrecords();
     }
 

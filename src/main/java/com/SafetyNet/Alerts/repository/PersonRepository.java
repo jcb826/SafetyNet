@@ -17,9 +17,11 @@ public class PersonRepository {
     }
 
     public List<Person> findAllPersons() {
-
         return dataHandler.getData().getPersons();
     }
+
+
+
     public List<Person> findAllpersonByAddress(String address){
 
         return dataHandler.getData().getPersons().stream().filter(p->p.getAdress().equals(address)).collect(Collectors.toList());
@@ -34,6 +36,12 @@ public class PersonRepository {
                 .orElseGet(()->new Person());
     }
 
+
+
+
+
+
+
 public void savePerson (Person person){
         dataHandler.getData().getPersons().add(person);
         dataHandler.save();
@@ -44,7 +52,7 @@ public void savePerson (Person person){
         List<Person> people = dataHandler.getData().getPersons();
         for (Person person2 : people) {
 
-            if (person2.getLastName().equals((person.getLastName()))&&person2.getFirstName().equals(person.getFirstName())) {
+            if (person2.getLastName().equals((person.getLastName()))&& person2.getFirstName().equals(person.getFirstName())) {
 
                 person2.setAddress(person.getAdress());
                 person2.setCity(person.getCity());
@@ -54,29 +62,24 @@ public void savePerson (Person person){
             }
         }
 
-
         // look for the person to update
 
         // set the new properties of this person
         dataHandler.getData().setPersons(people);
-        dataHandler.save();
+
     }
 
     public void deleteAPerson(String firstName, String lastName) {
-
         List<Person> people = dataHandler.getData().getPersons();
-        Integer count = null;
+        Integer personIndex = null;
         for (int i = 0; i < people.size(); i++) {
-
             if (people.get(i).getFirstName().equals(firstName) && people.get(i).getLastName().equals(lastName)) {
-                count = i;
-
+                personIndex = i;
             }
-
-
         }
-        if (count != null ){
-            people.remove(count.intValue());
+        if (personIndex != null ){
+            people.remove(personIndex.intValue());
+
             dataHandler.getData().setPersons(people);
             dataHandler.save();
         }

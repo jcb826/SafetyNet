@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,8 +75,8 @@ public class FireStationService {
                 .stream()).map(s -> FloodDto.builder()
                 .address(s.getAddress()).people(getPeopleByAddress(s.getAddress())).build()).collect(Collectors.toList());
 
-
     }
+
 
     public List<FloodDto.Person> getPeopleByAddress(String address) {
 
@@ -97,32 +100,9 @@ public class FireStationService {
     }
 
     private int computeAge(String birthdateOfPerson) {
-        Date date = null;
-        Calendar now = Calendar.getInstance();
-        Calendar birthDate = Calendar.getInstance();
-        try {
-            date = new SimpleDateFormat("dd/MM/yyyy").parse(birthdateOfPerson);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        birthDate.setTime(date);
-        if (birthDate.after(now)) {
-            throw new IllegalArgumentException("Can't be born in the future");
-        }
-        int year1 = now.get(Calendar.YEAR);
-        int year2 = birthDate.get(Calendar.YEAR);
-        int age = year1 - year2;
-        int month1 = now.get(Calendar.MONTH);
-        int month2 = birthDate.get(Calendar.MONTH);
-        if (month2 > month1) {
-            age--;
-        } else if (month1 == month2) {
-            int day1 = now.get(Calendar.DAY_OF_MONTH);
-            int day2 = birthDate.get(Calendar.DAY_OF_MONTH);
-            if (day2 > day1) {
-                age--;
-            }
-        }
+        LocalDate dob = LocalDate.parse(birthdateOfPerson, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        LocalDate curDate = LocalDate.now();
+        int age = Period.between(dob, curDate).getYears();
         return age;
     }
 
@@ -160,18 +140,21 @@ public class FireStationService {
     public FireStationDto findAllPersonsByStationNumber(int number) {
 
         FireStationDto result = new FireStationDto();
-        List <FireStationPersonDto> people = new ArrayList<>();
+        List<FireStationPersonDto> people = new ArrayList<>();
         result.setPeople(people);
         // get all stations by number
         List<FireStation> fireStations = fireStationRepository.findAllFireStationsAddressByNumber(number);
         List<MedicalRecord> medicalRecords = medicalRecordsRepository.findAllMedicalRecords();
         // get all people
         List<Person> persons = personRepository.findAllPersons();
+
+
+
         // compare addresses and add the results in FireSttionDto
 
         for (Person person : persons) {
-            FireStation fireStation = FireStationContainPersons(fireStations, person);
-            if (fireStation != null) {
+
+            if (fireStationContainPersons(fireStations, person) != null) {
                 FireStationPersonDto fireStationPersonDto = new FireStationPersonDto();
                 fireStationPersonDto.setFirstName(person.getFirstName());
                 fireStationPersonDto.setLastName(person.getLastName());
@@ -187,13 +170,14 @@ public class FireStationService {
                         if ((computeAge(medicalRecord.getBirthdate()) < 18)) {
                             result.setChildsCount(childsCount + 1);
                             childsCount++;
-                        } else
+                        } else {
                             result.setAdultsCount(adultsCount + 1);
-                        adultsCount++;
-
+                             adultsCount++;
+                        }
 
                     }
                 }
+
                 result.getPeople().add(fireStationPersonDto);
             }
 
@@ -203,7 +187,7 @@ public class FireStationService {
     }
 
     // recpetionne une personnne et check si elle est dans la liste
-    private FireStation FireStationContainPersons(List<FireStation> fireStations, Person person) {
+    private FireStation fireStationContainPersons(List<FireStation> fireStations, Person person) {
         for (FireStation fireStation : fireStations) {
             if (fireStation.getAddress().equals(person.getAdress())) {
                 return fireStation;
@@ -220,7 +204,8 @@ public class FireStationService {
         }
         return null;
     }
-    public void addFireStation (FireStation fireStation){
+
+    public void addFireStation(FireStation fireStation) {
 
         fireStationRepository.saveFireStation(fireStation);
     }
@@ -229,12 +214,13 @@ public class FireStationService {
 
         fireStationRepository.updateFireStation(fireStation);
     }
-    public void deleteFireStation(String address,String station) {
 
-        fireStationRepository.deleteFireStation(address,station);
+    public void deleteFireStation(String address, String station) {
+
+        fireStationRepository.deleteFireStation(address, station);
     }
-    public List<FireStation> allFireStations()
-    {
+
+    public List<FireStation> allFireStations() {
         return fireStationRepository.findAllFireStations();
     }
 

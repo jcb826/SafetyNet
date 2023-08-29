@@ -12,5 +12,4 @@ public class FireStationDto {
     Integer childsCount;
     List<FireStationPersonDto> people;
 
-
 }

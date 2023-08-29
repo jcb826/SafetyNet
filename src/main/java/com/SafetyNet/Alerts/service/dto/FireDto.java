@@ -1,8 +1,5 @@
 package com.SafetyNet.Alerts.service.dto;
 
-import com.SafetyNet.Alerts.model.MedicalRecord;
-
-
 
 public class FireDto {
     String fireStation;

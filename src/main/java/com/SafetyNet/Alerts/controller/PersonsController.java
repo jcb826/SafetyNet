@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 public class PersonsController {
+
     private final PersonService personService;
 
     PersonsController(PersonService personService) {
@@ -25,30 +26,23 @@ public class PersonsController {
     public List<String> listeEmails(@RequestParam(name = "city") String city) {
 
         return this.personService.findAllEmailsByCity(city);
-
     }
+
 
     @RequestMapping(value = "childAlert", method = RequestMethod.GET)
     public List<ChildAlertDto> childsUnder18ByAddress(@RequestParam(name = "address") String address) {
 
         return this.personService.findAllchildsUnder18ByAddress(address);
-
     }
-
 
     @RequestMapping(value = "personInfo", method = RequestMethod.GET)
     public List<PersonInfoDto> listOfpersonsWithMedicalRecords(@RequestParam(name = "firstName") String firstName, @RequestParam(name = "lastName") String lastName) {
-
         return this.personService.findAllpersonsWithMedicalRecords(firstName, lastName);
-
     }
-
 
     @RequestMapping(value = "fire", method = RequestMethod.GET)
     public List<FireDto> listOfpersonsByAddress(@RequestParam(name = "address") String address) {
-
         return this.personService.findAllpersonsWithMedicalRecords(address);
-
     }
 
     // add a person
@@ -68,6 +62,9 @@ public class PersonsController {
     public void deletePersoneAPerson(@RequestParam(name = "firstName") String firstName, @RequestParam(name = "lastName") String lastName) {
         personService.deletePerson(firstName, lastName);
     }
+
+
+
     @RequestMapping(value = "person", method = RequestMethod.GET)
     public List<Person> allpeople() {
 

@@ -3,7 +3,11 @@ package com.SafetyNet.Alerts.model;
 
 //@JsonFilter("monFiltreDynamique")
 public class MedicalRecord {
-
+    private String firstName;
+    private String lastName;
+    private String[] medications;
+    private String[] allergies;
+    private String birthdate;
 
     public String[] getMedications() {
         return medications;
@@ -21,11 +25,7 @@ public class MedicalRecord {
         this.allergies = allergies;
     }
 
-    private String firstName;
-    private String lastName;
-    private String[] medications;
-    private String[] allergies;
-    private String birthdate;
+
 
     public String getBirthdate() {
         return birthdate;
