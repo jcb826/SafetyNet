@@ -11,14 +11,10 @@ import com.SafetyNet.Alerts.service.dto.FireStationPersonDto;
 import com.SafetyNet.Alerts.service.dto.FloodDto;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +37,7 @@ public class FireStationService {
 
         List<String> result = new ArrayList<>();
 // get a fireStationAdress List by  station number
-        List<FireStation> fireStations = fireStationRepository.findAllFireStationsAddressByNumber(number);
+        List<FireStation> fireStations = fireStationRepository.findAllFireStationsByNumber(number);
 // get a list of all persons
 
         List<Person> persons = personRepository.findAllPersons();
@@ -52,9 +48,7 @@ public class FireStationService {
                 result.add(person.getPhone());
             }
         }
-
         return result;
-
     }
 
 
@@ -71,7 +65,7 @@ public class FireStationService {
 
     public List<FloodDto> flood(List<Integer> stationsNumbers) {
 
-        return stationsNumbers.stream().flatMap(n -> fireStationRepository.findAllFireStationsAddressByNumber(n)
+        return stationsNumbers.stream().flatMap(n -> fireStationRepository.findAllFireStationsByNumber(n)
                 .stream()).map(s -> FloodDto.builder()
                 .address(s.getAddress()).people(getPeopleByAddress(s.getAddress())).build()).collect(Collectors.toList());
 
@@ -143,7 +137,7 @@ public class FireStationService {
         List<FireStationPersonDto> people = new ArrayList<>();
         result.setPeople(people);
         // get all stations by number
-        List<FireStation> fireStations = fireStationRepository.findAllFireStationsAddressByNumber(number);
+        List<FireStation> fireStations = fireStationRepository.findAllFireStationsByNumber(number);
         List<MedicalRecord> medicalRecords = medicalRecordsRepository.findAllMedicalRecords();
         // get all people
         List<Person> persons = personRepository.findAllPersons();

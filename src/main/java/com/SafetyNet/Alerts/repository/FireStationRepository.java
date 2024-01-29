@@ -22,7 +22,7 @@ public class FireStationRepository {
         return dataHandler.getData().getFirestations();
     }
 
-    public List<FireStation> findAllFireStationsAddressByNumber(Integer number) {
+    public List<FireStation> findAllFireStationsByNumber(Integer number) {
 
         return dataHandler.getData().getFirestations().stream().filter(f -> f.getStation().equals(number.toString())).collect(Collectors.toList());
     }
