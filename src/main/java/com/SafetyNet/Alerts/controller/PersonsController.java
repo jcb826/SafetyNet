@@ -24,14 +24,11 @@ public class PersonsController {
     //Get an email list
     @RequestMapping(value = "communityEmail", method = RequestMethod.GET)
     public List<String> listeEmails(@RequestParam(name = "city") String city) {
-
         return this.personService.findAllEmailsByCity(city);
     }
 
-
     @RequestMapping(value = "childAlert", method = RequestMethod.GET)
     public List<ChildAlertDto> childsUnder18ByAddress(@RequestParam(name = "address") String address) {
-
         return this.personService.findAllchildsUnder18ByAddress(address);
     }
 
@@ -62,8 +59,6 @@ public class PersonsController {
     public void deletePersoneAPerson(@RequestParam(name = "firstName") String firstName, @RequestParam(name = "lastName") String lastName) {
         personService.deletePerson(firstName, lastName);
     }
-
-
 
     @RequestMapping(value = "person", method = RequestMethod.GET)
     public List<Person> allpeople() {

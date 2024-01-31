@@ -22,7 +22,6 @@ public class FireStationsController {
     //get the phones numbers by fireStations
     @RequestMapping(value = "phoneAlert", method = RequestMethod.GET)
     public List<String> phoneNumberList(@RequestParam(name = "fireStation") int number) {
-
         return this.fireStationService.findPhoneNumbersByStationNumber(number);
     }
 
